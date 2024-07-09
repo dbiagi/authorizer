@@ -1,0 +1,13 @@
+CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
+
+GRANT ALL PRIVILEGES ON DATABASE authorizer TO authorizer;
+GRANT ALL PRIVILEGES ON ALL SEQUENCES IN SCHEMA public TO authorizer;
+
+CREATE TABLE IF NOT EXISTS transactions (
+    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    amount NUMERIC NOT NULL,
+    account_id VARCHAR(255) NOT NULL,
+    credit_type VARCHAR(255) NOT NULL,
+    merchant TEXT NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);

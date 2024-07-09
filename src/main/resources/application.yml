@@ -1,0 +1,19 @@
+spring:
+  application:
+    name: authorizer
+  datasource:
+    url: jdbc:postgresql://localhost:5432/authorizer
+    username: authorizer
+    password: 123456
+
+app:
+  mcc:
+    codes:
+      restaurant: "0001"
+      supermarket: "0002"
+      mobility: "0003"
+  merchant:
+    lists:
+      restaurant: ["McDonald's", "Burger King", "KFC", "Pizza Hut", "Starbucks"]
+      supermarket: ["Walmart", "Carrefour", "Auchan", "Lidl", "Aldi"]
+      mobility: ["Uber", "Lyft", "Didi", "Ola", "Grab"]

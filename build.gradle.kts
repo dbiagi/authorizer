@@ -29,16 +29,17 @@ dependencies {
 	runtimeOnly("org.postgresql:postgresql")
 
 	// Tests
-	testImplementation("org.jetbrains.kotlin:kotlin-test-junit5")
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
+	testImplementation("org.jetbrains.kotlin:kotlin-test-junit5")
+	testImplementation("org.junit.jupiter:junit-jupiter-api:5.9.2")
+	testImplementation("org.junit.jupiter:junit-jupiter-engine:5.9.2")
+	testImplementation("org.junit.jupiter:junit-jupiter-params:5.9.2")
 	testRuntimeOnly("org.junit.platform:junit-platform-launcher")
-	testImplementation("org.junit.jupiter:junit-jupiter:5.8.1")
-	testRuntimeOnly("org.junit.vintage:junit-vintage-engine")
-	testRuntimeOnly("org.junit.platform:junit-platform-launcher")
+	testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine")
 
 	// Mockito
-	testImplementation("org.mockito:mockito-core:4.8.0")
-	testImplementation("org.mockito.kotlin:mockito-kotlin:4.1.0")
+	testImplementation("org.mockito:mockito-core:5.12.0")
+	testImplementation("org.mockito.kotlin:mockito-kotlin:5.4.0")
 
 	// Test Containers
 	testImplementation("org.springframework.boot:spring-boot-testcontainers")
@@ -54,4 +55,5 @@ kotlin {
 
 tasks.withType<Test> {
 	useJUnitPlatform()
+
 }

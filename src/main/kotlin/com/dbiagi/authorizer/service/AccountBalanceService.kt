@@ -5,6 +5,7 @@ import com.dbiagi.authorizer.domain.exception.InsufficientBalanceException
 import com.dbiagi.authorizer.model.AccountBalance
 import com.dbiagi.authorizer.repository.AccountBalanceRepository
 import org.springframework.stereotype.Service
+import java.time.LocalDateTime
 
 @Service
 class AccountBalanceService(
@@ -15,7 +16,7 @@ class AccountBalanceService(
         if (amount > balance.totalAmount) {
             throw InsufficientBalanceException("Insufficient balance for account $accountId and type $type")
         }
-        balanceRepository.save(balance.copy(totalAmount = balance.totalAmount - amount))
+        balanceRepository.save(balance.copy(totalAmount = balance.totalAmount - amount, updatedAt = LocalDateTime.now()))
     }
 
     private fun getBalance(accountId: String, type: CreditType): AccountBalance =

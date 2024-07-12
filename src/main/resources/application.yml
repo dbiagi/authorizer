@@ -14,6 +14,7 @@ app:
       mobility: "0003"
   merchant:
     lists:
-      restaurant: ["McDonald's", "Burger King", "KFC", "Pizza Hut", "Starbucks"]
-      supermarket: ["Walmart", "Carrefour", "Auchan", "Lidl", "Aldi"]
-      mobility: ["Uber", "Lyft", "Didi", "Ola", "Grab"]
+      restaurant: [ "McDonald's", "Burger King", "KFC", "Pizza Hut", "Starbucks" ]
+      supermarket: [ "Walmart", "Carrefour", "Auchan", "Lidl", "Aldi" ]
+      mobility: [ "Uber", "Lyft", "Didi", "Ola", "Grab" ]
+debug: true

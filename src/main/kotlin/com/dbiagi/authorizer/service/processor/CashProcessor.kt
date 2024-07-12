@@ -3,11 +3,12 @@ package com.dbiagi.authorizer.service.processor
 import com.dbiagi.authorizer.domain.CreditType
 import com.dbiagi.authorizer.domain.ResultCode
 import com.dbiagi.authorizer.domain.TransactionRequest
-import com.dbiagi.authorizer.domain.TransactionResponse
 import com.dbiagi.authorizer.domain.exception.InsufficientBalanceException
 import com.dbiagi.authorizer.service.TransactionService
 import org.slf4j.LoggerFactory
+import org.springframework.stereotype.Service
 
+@Service
 class CashProcessor(
     private val transactionService: TransactionService
 ) : AuthorizationProcessor {
@@ -18,18 +19,16 @@ class CashProcessor(
 
         try {
             transactionService.process(request, CreditType.CASH)
-            logger.warn("Transaction approved for account ${request.account}")
+            logger.info("Transaction approved for account ${request.account}")
             return ResultCode.APPROVED
         } catch (e: InsufficientBalanceException) {
-            logger.warn("Transaction rejected for account ${request.account}")
+            logger.warn("Transaction rejected for account ${request.account}", e)
             return ResultCode.REJECTED
         } catch (e: Exception) {
-            logger.warn("Transaction unprocessable for account ${request.account}")
+            logger.warn("Transaction unprocessable for account ${request.account}", e)
             return ResultCode.UNPROCESSABLE
         }
     }
 
     override fun match(type: CreditType): Boolean = type == CreditType.SUPERMARKET
-
-    override fun fallback(): CreditType? = null
 }

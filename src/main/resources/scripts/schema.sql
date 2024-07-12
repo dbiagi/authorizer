@@ -11,3 +11,23 @@ CREATE TABLE IF NOT EXISTS transactions (
     merchant TEXT NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
+
+CREATE TABLE IF NOT EXISTS account_balance(
+    id SERIAL PRIMARY KEY,
+    account_id VARCHAR(255) NOT NULL,
+    total_amount NUMERIC NOT NULL,
+    type VARCHAR(255) NOT NULL,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+CREATE UNIQUE INDEX account_balance_account_id_type_idx ON account_balance(account_id, type);
+
+INSERT INTO account_balance (account_id, total_amount, type) VALUES ('1', 1000, 'CASH');
+INSERT INTO account_balance (account_id, total_amount, type) VALUES ('1', 1000, 'SUPERMARKET');
+INSERT INTO account_balance (account_id, total_amount, type) VALUES ('1', 1000, 'RESTAURANT');
+INSERT INTO account_balance (account_id, total_amount, type) VALUES ('1', 0, 'MOBILITY');
+
+INSERT INTO account_balance (account_id, total_amount, type) VALUES ('2', 0, 'CASH');
+INSERT INTO account_balance (account_id, total_amount, type) VALUES ('2', 0, 'SUPERMARKET');
+INSERT INTO account_balance (account_id, total_amount, type) VALUES ('2', 1000, 'RESTAURANT');
+INSERT INTO account_balance (account_id, total_amount, type) VALUES ('2', 1000, 'MOBILITY');
+

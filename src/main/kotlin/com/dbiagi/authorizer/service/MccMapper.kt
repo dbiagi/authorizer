@@ -1,7 +1,7 @@
 package com.dbiagi.authorizer.service
 
-import com.dbiagi.authorizer.domain.Mcc
 import com.dbiagi.authorizer.domain.CreditType
+import com.dbiagi.authorizer.domain.Mcc
 import com.dbiagi.authorizer.domain.config.MccCodesConfig
 import org.springframework.stereotype.Component
 

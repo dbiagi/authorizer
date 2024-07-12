@@ -2,6 +2,7 @@ package com.dbiagi.authorizer.service.authorization
 
 import com.dbiagi.authorizer.domain.ResultCode
 import com.dbiagi.authorizer.domain.TransactionRequest
+import com.dbiagi.authorizer.domain.exception.InsufficientBalanceException
 import com.dbiagi.authorizer.service.MccMapper
 import com.dbiagi.authorizer.service.processor.AuthorizationProcessor
 import org.springframework.stereotype.Service
@@ -19,6 +20,11 @@ class SimpleAuthorizerService(
             return ResultCode.UNPROCESSABLE
         }
 
-        return processor.authorize(transactionRequest)
+        return try {
+            processor.authorize(transactionRequest)
+            ResultCode.APPROVED
+        } catch (e: InsufficientBalanceException) {
+            ResultCode.REJECTED
+        }
     }
 }

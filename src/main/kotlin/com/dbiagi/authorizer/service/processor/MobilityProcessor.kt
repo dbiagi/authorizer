@@ -14,20 +14,9 @@ class MobilityProcessor(
 ) : AuthorizationProcessor {
     private val logger = LoggerFactory.getLogger(javaClass)
 
-    override fun authorize(request: TransactionRequest): ResultCode {
+    override fun authorize(request: TransactionRequest) {
         logger.info("Processing mobility transaction for account ${request.account}")
-
-        try {
-            transactionService.process(request, CreditType.MOBILITY)
-            logger.warn("Transaction approved for account ${request.account}")
-            return ResultCode.APPROVED
-        } catch (e: InsufficientBalanceException) {
-            logger.warn("Transaction rejected for account ${request.account}", e)
-            return ResultCode.REJECTED
-        } catch (e: Exception) {
-            logger.warn("Transaction unprocessable for account ${request.account}", e)
-            return ResultCode.UNPROCESSABLE
-        }
+        transactionService.process(request, CreditType.MOBILITY)
     }
 
     override fun match(type: CreditType): Boolean = type == CreditType.MOBILITY

@@ -8,6 +8,7 @@ import com.dbiagi.authorizer.service.TransactionService
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import org.mockito.Mockito.mock
+import org.mockito.kotlin.verify
 import org.mockito.kotlin.whenever
 
 class MobilityProcessorTest {
@@ -20,35 +21,9 @@ class MobilityProcessorTest {
         val request = TransactionRequestFixture.getTransaction()
 
         // when
-        val result = mobilityProcessor.authorize(request)
+        mobilityProcessor.authorize(request)
 
         // then
-        assertEquals(ResultCode.APPROVED, result)
-    }
-
-    @Test
-    fun `given an insufficient balance should return rejected`() {
-        // given
-        val request = TransactionRequestFixture.getTransaction()
-        whenever(transactionService.process(request, CreditType.MOBILITY)).thenThrow(InsufficientBalanceException::class.java)
-
-        // when
-        val result = mobilityProcessor.authorize(request)
-
-        // then
-        assertEquals(ResultCode.REJECTED, result)
-    }
-
-    @Test
-    fun `given an exception should return unprocessable`() {
-        // given
-        val request = TransactionRequestFixture.getTransaction()
-        whenever(transactionService.process(request, CreditType.MOBILITY)).thenThrow(RuntimeException::class.java)
-
-        // when
-        val result = mobilityProcessor.authorize(request)
-
-        // then
-        assertEquals(ResultCode.UNPROCESSABLE, result)
+        verify(transactionService).process(request, CreditType.MOBILITY)
     }
 }

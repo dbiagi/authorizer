@@ -19,15 +19,23 @@ class AuthorizerWithFallbackService(
         val processor = processors.find { it.match(mcc.type) }
 
         if (processor == null) {
-            return fallbackProcessor.authorize(transactionRequest)
+            fallback(transactionRequest)
         }
 
-        // TODO: Arrumar essa implementação. Fallback não está sendo chamado corretamente.
-
         return try {
-            processor.authorize(transactionRequest)
+            processor?.authorize(transactionRequest) ?: ResultCode.REJECTED
+            ResultCode.APPROVED
         } catch (e: InsufficientBalanceException) {
+            fallback(transactionRequest)
+        }
+    }
+
+    private fun fallback(transactionRequest: TransactionRequest): ResultCode {
+        return try {
             fallbackProcessor.authorize(transactionRequest)
+            ResultCode.APPROVED
+        } catch (e: InsufficientBalanceException) {
+            ResultCode.REJECTED
         }
     }
 }

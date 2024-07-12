@@ -29,7 +29,6 @@ class AuthorizerWithFallbackServiceTest {
 
         whenever(mccMapper.convert(transactionRequest.mcc, transactionRequest.merchant)).thenReturn(mcc)
         whenever(processor.match(mcc.type)).thenReturn(true)
-        whenever(processor.authorize(transactionRequest)).thenReturn(ResultCode.APPROVED)
 
         // When
         val result = authorizerWithFallbackService.authorize(transactionRequest)
@@ -46,8 +45,6 @@ class AuthorizerWithFallbackServiceTest {
         val mcc = Mcc("1234", CreditType.UNKNOWN)
 
         whenever(mccMapper.convert(transactionRequest.mcc, transactionRequest.merchant)).thenReturn(mcc)
-        whenever(processor.authorize(transactionRequest)).thenReturn(ResultCode.APPROVED)
-        whenever(cashProcessor.authorize(transactionRequest)).thenReturn(ResultCode.APPROVED)
 
         // When
         val result = authorizerWithFallbackService.authorize(transactionRequest)
@@ -66,7 +63,6 @@ class AuthorizerWithFallbackServiceTest {
         whenever(mccMapper.convert(transactionRequest.mcc, transactionRequest.merchant)).thenReturn(mcc)
         whenever(processor.match(mcc.type)).thenReturn(true)
         whenever(processor.authorize(transactionRequest)).thenThrow(InsufficientBalanceException::class.java)
-        whenever(cashProcessor.authorize(transactionRequest)).thenReturn(ResultCode.APPROVED)
 
         // When
         val result = authorizerWithFallbackService.authorize(transactionRequest)

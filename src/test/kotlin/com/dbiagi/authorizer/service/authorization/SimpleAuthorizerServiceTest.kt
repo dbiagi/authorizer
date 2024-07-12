@@ -32,7 +32,6 @@ class SimpleAuthorizerServiceTest {
 
         whenever(mccMapper.convert(transactionRequest.mcc, transactionRequest.merchant)).thenReturn(mcc)
         whenever(processor.match(mcc.type)).thenReturn(true)
-        whenever(processor.authorize(transactionRequest)).thenReturn(ResultCode.APPROVED)
 
         // When
         val result = simpleAuthorizerService.authorize(transactionRequest)
@@ -54,7 +53,6 @@ class SimpleAuthorizerServiceTest {
         val mcc = Mcc("1234", CreditType.UNKNOWN)
 
         whenever(mccMapper.convert(transactionRequest.mcc, transactionRequest.merchant)).thenReturn(mcc)
-        whenever(processor.authorize(transactionRequest)).thenReturn(ResultCode.APPROVED)
 
         // When
         val result = simpleAuthorizerService.authorize(transactionRequest)

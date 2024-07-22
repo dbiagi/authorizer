@@ -6,7 +6,6 @@ import org.springframework.context.annotation.Configuration
 @Configuration
 @ConfigurationProperties(prefix = "app.mcc.codes")
 data class MccCodesConfig(
-    var restaurant: String = "",
-    var supermarket: String = "",
-    var mobility: String = "",
+    var food: List<String> = emptyList(),
+    var meal: List<String> = emptyList(),
 )

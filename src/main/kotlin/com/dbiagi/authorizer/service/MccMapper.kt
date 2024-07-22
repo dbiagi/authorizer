@@ -11,15 +11,12 @@ class MccMapper(
     private val mccCodesConfig: MccCodesConfig
 ) {
     fun convert(mccCode: String, merchantName: String): Mcc {
-        val type: CreditType = when (mccCode) {
-            mccCodesConfig.restaurant -> CreditType.RESTAURANT
-            mccCodesConfig.supermarket -> CreditType.SUPERMARKET
-            mccCodesConfig.mobility -> CreditType.MOBILITY
-            else -> CreditType.UNKNOWN
+        if (mccCode in mccCodesConfig.food) {
+            return Mcc(mccCode, CreditType.FOOD)
         }
 
-        if (type != CreditType.UNKNOWN) {
-            return Mcc(mccCode, type)
+        if (mccCode in mccCodesConfig.meal) {
+            return Mcc(mccCode, CreditType.MEAL)
         }
 
         return merchantMccMapper.convert(mccCode, merchantName)

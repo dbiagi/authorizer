@@ -9,9 +9,8 @@ spring:
 app:
   mcc:
     codes:
-      restaurant: "0001"
-      supermarket: "0002"
-      mobility: "0003"
+      food: ["5411", "5412"]
+      meal: ["5811", "5812"]
   merchant:
     lists:
       restaurant: [ "McDonald's", "Burger King", "KFC", "Pizza Hut", "Starbucks" ]

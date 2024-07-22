@@ -11,11 +11,11 @@ class MerchantMccMapper(
 ) {
     fun convert(mccCode: String, merchantName: String): Mcc {
         if (contains(merchantNameListsConfig.restaurant, merchantName)) {
-            return Mcc(mccCode, CreditType.RESTAURANT)
+            return Mcc(mccCode, CreditType.FOOD)
         }
 
         if (contains(merchantNameListsConfig.supermarket, merchantName)) {
-            return Mcc(mccCode, CreditType.SUPERMARKET)
+            return Mcc(mccCode, CreditType.MEAL)
         }
 
         if (contains(merchantNameListsConfig.mobility, merchantName)) {

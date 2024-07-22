@@ -1,8 +1,8 @@
 package com.dbiagi.authorizer.domain
 
 enum class CreditType {
-    RESTAURANT,
-    SUPERMARKET,
+    FOOD,
+    MEAL,
     MOBILITY,
     UNKNOWN,
     CASH

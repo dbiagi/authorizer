@@ -1,9 +1,7 @@
 package com.dbiagi.authorizer.service.processor
 
 import com.dbiagi.authorizer.domain.CreditType
-import com.dbiagi.authorizer.domain.ResultCode
 import com.dbiagi.authorizer.domain.TransactionRequest
-import com.dbiagi.authorizer.domain.exception.InsufficientBalanceException
 import com.dbiagi.authorizer.service.TransactionService
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
@@ -19,5 +17,5 @@ class CashProcessor(
         transactionService.process(request, CreditType.CASH)
     }
 
-    override fun match(type: CreditType): Boolean = type == CreditType.SUPERMARKET
+    override fun match(type: CreditType): Boolean = type == CreditType.MEAL
 }

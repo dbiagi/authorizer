@@ -1,23 +1,21 @@
 package com.dbiagi.authorizer.service.processor
 
 import com.dbiagi.authorizer.domain.CreditType
-import com.dbiagi.authorizer.domain.ResultCode
 import com.dbiagi.authorizer.domain.TransactionRequest
-import com.dbiagi.authorizer.domain.exception.InsufficientBalanceException
 import com.dbiagi.authorizer.service.TransactionService
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
 
 @Service
-class RestaurantProcessor(
+class FoodProcessor(
     private val transactionService: TransactionService,
 ) : AuthorizationProcessor {
     private val logger = LoggerFactory.getLogger(javaClass)
 
     override fun authorize(request: TransactionRequest) {
         logger.info("Processing restaurant transaction for account ${request.account}")
-        transactionService.process(request, CreditType.RESTAURANT)
+        transactionService.process(request, CreditType.FOOD)
     }
 
-    override fun match(type: CreditType): Boolean = type == CreditType.RESTAURANT
+    override fun match(type: CreditType): Boolean = type == CreditType.FOOD
 }

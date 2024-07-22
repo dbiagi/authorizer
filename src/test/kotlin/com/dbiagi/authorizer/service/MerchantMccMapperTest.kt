@@ -22,7 +22,7 @@ class MerchantMccMapperTest {
         val mcc = merchantMccMapper.convert(mccCode, merchantName)
 
         // Then
-        assertEquals(CreditType.RESTAURANT, mcc.type)
+        assertEquals(CreditType.FOOD, mcc.type)
     }
 
     @Test
@@ -36,7 +36,7 @@ class MerchantMccMapperTest {
         val mcc = merchantMccMapper.convert(mccCode, merchantName)
 
         // Then
-        assertEquals(CreditType.SUPERMARKET, mcc.type)
+        assertEquals(CreditType.MEAL, mcc.type)
     }
 
     @Test

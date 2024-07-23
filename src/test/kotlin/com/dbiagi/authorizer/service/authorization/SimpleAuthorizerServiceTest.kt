@@ -4,20 +4,21 @@ import com.dbiagi.authorizer.domain.CreditType
 import com.dbiagi.authorizer.domain.Mcc
 import com.dbiagi.authorizer.domain.ResultCode
 import com.dbiagi.authorizer.domain.TransactionRequest
+import com.dbiagi.authorizer.domain.exception.InsufficientBalanceException
 import com.dbiagi.authorizer.service.MccMapper
-import com.dbiagi.authorizer.service.processor.AuthorizationProcessor
+import com.dbiagi.authorizer.service.TransactionService
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import org.mockito.kotlin.mock
 import org.mockito.kotlin.never
 import org.mockito.kotlin.verify
+import org.mockito.kotlin.verifyNoInteractions
 import org.mockito.kotlin.whenever
 
 class SimpleAuthorizerServiceTest {
-    private val processor: AuthorizationProcessor = mock()
-    private val processors: List<AuthorizationProcessor> = listOf(processor)
+    private val transactionService: TransactionService = mock()
     private val mccMapper: MccMapper = mock()
-    private val simpleAuthorizerService = SimpleAuthorizerService(processors, mccMapper)
+    private val simpleAuthorizerService = SimpleAuthorizerService(transactionService, mccMapper)
 
     @Test
     fun `given a transaction request should authorize`() {
@@ -31,13 +32,12 @@ class SimpleAuthorizerServiceTest {
         val mcc = Mcc("1234", CreditType.CASH)
 
         whenever(mccMapper.convert(transactionRequest.mcc, transactionRequest.merchant)).thenReturn(mcc)
-        whenever(processor.match(mcc.type)).thenReturn(true)
 
         // When
         val result = simpleAuthorizerService.authorize(transactionRequest)
 
         // Then
-        verify(processor).authorize(transactionRequest)
+        verify(transactionService).process(transactionRequest, mcc.type)
         assertEquals(ResultCode.APPROVED, result)
     }
 
@@ -53,12 +53,12 @@ class SimpleAuthorizerServiceTest {
         val mcc = Mcc("1234", CreditType.UNKNOWN)
 
         whenever(mccMapper.convert(transactionRequest.mcc, transactionRequest.merchant)).thenReturn(mcc)
+        whenever(transactionService.process(transactionRequest, mcc.type)).thenThrow(InsufficientBalanceException::class.java)
 
         // When
         val result = simpleAuthorizerService.authorize(transactionRequest)
 
         // Then
-        verify(processor, never()).authorize(transactionRequest)
-        assertEquals(ResultCode.UNPROCESSABLE, result)
+        assertEquals(ResultCode.REJECTED, result)
     }
 }

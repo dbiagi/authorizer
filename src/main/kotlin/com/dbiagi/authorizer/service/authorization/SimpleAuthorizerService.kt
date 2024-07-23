@@ -20,6 +20,8 @@ class SimpleAuthorizerService(
             ResultCode.APPROVED
         } catch (e: InsufficientBalanceException) {
             ResultCode.REJECTED
+        } catch(e: Exception) {
+            ResultCode.UNPROCESSABLE
         }
     }
 }
